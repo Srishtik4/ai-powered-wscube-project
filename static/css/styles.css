@@ -1,0 +1,119 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.navbar {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+h1 {
+    color: #0d6efd;
+    font-weight: 700;
+}
+
+.lead {
+    color: #6c757d;
+    margin-bottom: 2rem;
+}
+
+.feature-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+    height: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card h3 {
+    color: #0d6efd;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+}
+
+.btn-primary {
+    padding: 10px 25px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-primary:hover {
+    transform: scale(1.05);
+}
+
+/* Assessment page styles */
+.question-container {
+    background: white;
+    border-radius: 10px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar {
+    height: 10px;
+    border-radius: 5px;
+}
+
+/* Results page styles */
+.results-card {
+    background: white;
+    border-radius: 10px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.career-option {
+    border-left: 4px solid #0d6efd;
+    padding-left: 15px;
+    margin-bottom: 20px;
+}
+
+.career-match {
+    font-weight: bold;
+    color: #0d6efd;
+}
+
+/* Video consultation styles */
+.consultation-card {
+    background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.video-container {
+    background: #343a40;
+    border-radius: 10px;
+    height: 450px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .feature-card {
+        margin-bottom: 15px;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+}
