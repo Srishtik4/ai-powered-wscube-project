@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ course.name }} - WSCube Learning</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #4b6fff;
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        .points {
+            background-color: #ffd700;
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 20px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .back-btn {
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .course-title {
+            font-size: 24px;
+            color: #4b6fff;
+        }
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .module-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .module-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .module-card h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .module-difficulty {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        .difficulty-star {
+            color: #ffd700;
+            margin-right: 3px;
+        }
+        .difficulty-star.empty {
+            color: #e0e0e0;
+        }
+        .module-status {
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .status-badge {
+            background-color: #e0e0e0;
+            color: #333;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        .status-badge.completed {
+            background-color: #a5d6a7;
+            color: #1b5e20;
+        }
+        .view-btn {
+            background-color: #4b6fff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container header-content">
+            <div class="logo">WSCube Learning</div>
+            <div class="user-info">
+                <a href="{{ url_for('index') }}" class="back-btn"><i class="fas fa-arrow-left"></i> Dashboard</a>
+                <div class="points"><i class="fas fa-star"></i> {{ user_data.points }} Points</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="course-header">
+            <h1 class="course-title">{{ course.name }}</h1>
+        </div>
+        
+        <div class="module-grid">
+            {% for module in course.modules %}
+            <div class="module-card">
+                <h3>{{ module.name }}</h3>
+                
+                <div class="module-difficulty">
+                    {% for i in range(1, 5) %}
+                    <span class="difficulty-star {% if i > module.difficulty %}empty{% endif %}">★</span>
+                    {% endfor %}
+                </div>
+                
+                <p>Learn all about {{ module.name }} in this comprehensive module.</p>
+                
+                <div class="module-status">
+                    <span class="status-badge {% if module.id in user_data.completed_modules %}completed{% endif %}">
+                        {% if module.id in user_data.completed_modules %}
+                        Completed
+                        {% else %}
+                        Not started
+                        {% endif %}
+                    </span>
+                    
+                    <a href="{{ url_for('view_module', module_id=module.id) }}" class="view-btn">
+                        {% if module.id in user_data.completed_modules %}
+                        Review
+                        {% else %}
+                        Start Learning
+                        {% endif %}
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

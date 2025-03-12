@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Recommendations - WsCube Career Mapper</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">WsCube Career Mapper</a>
+        </div>
+    </nav>
+    
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <h1 class="text-center">Your Career Recommendations</h1>
+                <p class="lead text-center mb-4">Based on your preferences, here are the tech careers that might be a good fit for you:</p>
+                
+                <div class="row">
+                    {% for career in careers %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ career.title }}</h5>
+                                <p class="card-text">{{ career.description }}</p>
+                                <h6>Key Skills:</h6>
+                                <ul>
+                                    {% for skill in career.skills %}
+                                    <li>{{ skill }}</li>
+                                    {% endfor %}
+                                </ul>
+                                <p><strong>Salary Range:</strong> {{ career.salary_range }}</p>
+                                <p><strong>Growth:</strong> {{ career.growth_prospects }}</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="/career/{{ career.id }}" class="btn btn-primary">Explore This Path</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="text-center mt-4">
+                    <p>Want personalized guidance from an AI career advisor?</p>
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#consultationModal">Schedule Video Consultation</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Consultation Modal -->
+    <div class="modal fade" id="consultationModal" tabindex="-1" aria-labelledby="consultationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="consultationModalLabel">Schedule Video Consultation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="consultationForm">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="preferredTime" class="form-label">Preferred Date & Time</label>
+                            <input type="datetime-local" class="form-control" id="preferredTime" name="preferred_time" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="topics" class="form-label">Topics to Discuss</label>
+                            <textarea class="form-control" id="topics" name="topics" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="scheduleButton">Schedule Session</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        document.getElementById('scheduleButton').addEventListener('click', function() {
+            const formData = new FormData(document.getElementById('consultationForm'));
+            
+            fetch('/schedule-consultation', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'scheduled') {
+                    alert('Your consultation has been scheduled! You will receive a confirmation email with the meeting link.');
+                    $('#consultationModal').modal('hide');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error scheduling your consultation. Please try again.');
+            });
+        });
+    </script>
+</body>
+</html>

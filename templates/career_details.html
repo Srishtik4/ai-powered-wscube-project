@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ career.title }} - WsCube Career Mapper</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">WsCube Career Mapper</a>
+        </div>
+    </nav>
+    
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="javascript:history.back()">Recommendations</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ career.title }}</li>
+                    </ol>
+                </nav>
+                
+                <h1 class="mb-4">{{ career.title }}</h1>
+                
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Career Overview</h5>
+                                <p class="card-text">{{ career.description }}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Learning Roadmap</h5>
+                                <ol class="list-group list-group-numbered">
+                                    {% for step in career.roadmap %}
+                                    <li class="list-group-item">{{ step }}</li>
+                                    {% endfor %}
+                                </ol>
+                            </div>
+                        </div>
+                        
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Required Skills</h5>
+                                <ul class="list-group">
+                                    {% for skill in career.required_skills %}
+                                    <li class="list-group-item">{{ skill }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Market Trends</h5>
+                                <p class="card-text">{{ career.market_trends }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Career Opportunities</h5>
+                                <ul class="list-group">
+                                    {% for opportunity in career.opportunities %}
+                                    <li class="list-group-item">{{ opportunity }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Learning Resources</h5>
+                                <ul class="list-group">
+                                    {% for resource in career.resources %}
+                                    <li class="list-group-item">
+                                        <a href="{{ resource.url }}" target="_blank">{{ resource.name }}</a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="card mb-4">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">Need More Guidance?</h5>
+                                <p>Schedule a one-on-one consultation with our AI career advisor.</p>
+                                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#consultationModal">Schedule Consultation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Consultation Modal (same as in recommendations.html) -->
+    <div class="modal fade" id="consultationModal" tabindex="-1" aria-labelledby="consultationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="consultationModalLabel">Schedule Video Consultation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="consultationForm">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="preferredTime" class="form-label">Preferred Date & Time</label>
+                            <input type="datetime-local" class="form-control" id="preferredTime" name="preferred_time" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="topics" class="form-label">Topics to Discuss</label>
+                            <textarea class="form-control" id="topics" name="topics" rows="3"></textarea>
+                        </div>
+                        <input type="hidden" name="career_path" value="{{ career.title }}">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="scheduleButton">Schedule Session</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        document.getElementById('scheduleButton').addEventListener('click', function() {
+            const formData = new FormData(document.getElementById('consultationForm'));
+            
+            fetch('/schedule-consultation', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'scheduled') {
+                    alert('Your consultation has been scheduled! You will receive a confirmation email with the meeting link.');
+                    $('#consultationModal').modal('hide');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error scheduling your consultation. Please try again.');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Assessment - WsCube Career Mapper</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">WsCube Career Mapper</a>
+        </div>
+    </nav>
+    
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h1 class="text-center">Career Assessment</h1>
+                <p class="lead text-center mb-4">Answer the following questions to help us understand your preferences and goals.</p>
+                
+                <form action="/recommendations" method="POST" id="assessmentForm">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5>Technical Interests</h5>
+                            <div class="mb-3">
+                                <label class="form-label">Which of these activities do you enjoy the most?</label>
+                                <select class="form-select" name="interests" required>
+                                    <option value="">Select an option</option>
+                                    <option value="coding">Writing code and building applications</option>
+                                    <option value="data">Analyzing data and finding patterns</option>
+                                    <option value="design">Designing user interfaces and experiences</option>
+                                    <option value="infrastructure">Setting up and managing IT systems</option>
+                                    <option value="security">Solving security challenges and protecting systems</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5>Your Strengths</h5>
+                            <div class="mb-3">
+                                <label class="form-label">What comes most naturally to you?</label>
+                                <select class="form-select" name="strengths" required>
+                                    <option value="">Select an option</option>
+                                    <option value="problem-solving">Solving complex problems</option>
+                                    <option value="creativity">Creative thinking</option>
+                                    <option value="organization">Organization and attention to detail</option>
+                                    <option value="communication">Communication and collaboration</option>
+                                    <option value="analytical">Analytical thinking</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5>Work Style</h5>
+                            <div class="mb-3">
+                                <label class="form-label">How do you prefer to work?</label>
+                                <select class="form-select" name="work_style" required>
+                                    <option value="">Select an option</option>
+                                    <option value="independent">Independently with focused concentration</option>
+                                    <option value="collaborative">Collaboratively in a team</option>
+                                    <option value="creative">In a creative, dynamic environment</option>
+                                    <option value="structured">In a structured, organized environment</option>
+                                    <option value="varied">With varied tasks and challenges</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5>Preferred Environment</h5>
+                            <div class="mb-3">
+                                <label class="form-label">What type of work environment appeals to you?</label>
+                                <select class="form-select" name="environment" required>
+                                    <option value="">Select an option</option>
+                                    <option value="startup">Fast-paced startup</option>
+                                    <option value="enterprise">Established enterprise</option>
+                                    <option value="agency">Creative agency or consultancy</option>
+                                    <option value="remote">Remote-first company</option>
+                                    <option value="research">Research-oriented organization</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5>Long-term Goals</h5>
+                            <div class="mb-3">
+                                <label class="form-label">What are your long-term career goals?</label>
+                                <select class="form-select" name="goals" required>
+                                    <option value="">Select an option</option>
+                                    <option value="technical-expert">Become a technical expert/specialist</option>
+                                    <option value="leadership">Move into leadership positions</option>
+                                    <option value="entrepreneurship">Start my own business</option>
+                                    <option value="innovation">Create innovative products/solutions</option>
+                                    <option value="research">Contribute to research and advancement</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg">Get Career Recommendations</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
